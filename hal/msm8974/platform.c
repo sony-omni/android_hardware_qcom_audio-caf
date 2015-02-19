@@ -643,7 +643,7 @@ static void platform_csd_init(struct platform_data *plat_data)
     const char *func = "count_modems";
     const char *error;
 
-    plat_data->csd = NULL;
+    my_data->csd = NULL;
 
     void *lib = dlopen(name, RTLD_NOW);
     error = dlerror();
@@ -669,12 +669,12 @@ static void platform_csd_init(struct platform_data *plat_data)
 
     ALOGD("%s: num_modems %d\n", __func__, modems);
     if (modems > 0)
-        plat_data->csd = open_csd_client(false /*is_i2s_ext_modem*/);
+        my_data->csd = open_csd_client(false /*is_i2s_ext_modem*/);
 
 done:
     dlclose(lib);
 #else
-     plat_data->csd = NULL;
+     my_data->csd = NULL;
 #endif
 }
 
