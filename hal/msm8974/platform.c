@@ -40,7 +40,6 @@
 #include "audio_extn.h"
 #include "voice_extn.h"
 #include "edid.h"
-#include "mdm_detect.h"
 #include "sound/compress_params.h"
 #include "sound/msmcal-hwdep.h"
 
@@ -638,22 +637,7 @@ void close_csd_client(struct csd_data *csd)
 
 static void platform_csd_init(struct platform_data *plat_data)
 {
-    struct dev_info mdm_detect_info;
-    int ret = 0;
-
-    /* Call ESOC API to get the number of modems.
-     * If the number of modems is not zero, load CSD Client specific
-     * symbols. Voice call is handled by MDM and apps processor talks to
-     * MDM through CSD Client
-     */
-    ret = get_system_info(&mdm_detect_info);
-    if (ret > 0) {
-        ALOGE("%s: Failed to get system info, ret %d", __func__, ret);
-    }
-    ALOGD("%s: num_modems %d\n", __func__, mdm_detect_info.num_modems);
-
-    if (mdm_detect_info.num_modems > 0)
-        plat_data->csd = open_csd_client(plat_data->is_i2s_ext_modem);
+	plat_data->csd = NULL;
 }
 
 static bool platform_is_i2s_ext_modem(const char *snd_card_name,
